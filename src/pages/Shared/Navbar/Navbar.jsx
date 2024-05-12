@@ -107,6 +107,15 @@ const Navbar = () => {
         {user ? (
           <>
             <div className="items-center flex-shrink-0 hidden lg:flex">
+              <div className="flex flex-col items-center justify-center px-10">
+                <div className="flex space-x-5">
+                  <img
+                    alt=""
+                    className="w-12 h-12 rounded-full ring-2 ring-offset-4 dark:bg-gray-500 dark:ring-violet-600 dark:ring-offset-gray-100"
+                    src={user.photoURL}
+                  />
+                </div>
+              </div>
               <button
                 onClick={logOut}
                 className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
