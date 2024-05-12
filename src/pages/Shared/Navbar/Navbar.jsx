@@ -1,5 +1,4 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import "./Navbar.css";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -93,9 +92,12 @@ const Navbar = () => {
         </ul>
         <div className="items-center flex-shrink-0 hidden lg:flex">
           <button className="self-center px-8 py-3 rounded">Sign in</button>
-          <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-600 dark:text-gray-50">
+          <NavLink
+            to="/register"
+            className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
+          >
             Sign up
-          </button>
+          </NavLink>
         </div>
         <button className="p-4 lg:hidden" onClick={toggleMenu}>
           <svg

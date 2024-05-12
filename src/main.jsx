@@ -8,6 +8,7 @@ import Queries from "./pages/Queries/Queries";
 import Recommendations from "./pages/Recommendations/Recommendations";
 import MyRecommendations from "./pages/MyRecommendations/MyRecommendations";
 import MyQueries from "./pages/MyQueries/MyQueries";
+import Register from "./pages/Register/Register";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/myQueries",
         element: <MyQueries></MyQueries>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
       },
     ],
   },
