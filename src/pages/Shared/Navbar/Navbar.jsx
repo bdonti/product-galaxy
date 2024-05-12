@@ -118,7 +118,11 @@ const Navbar = () => {
         ) : (
           <>
             <div className="items-center flex-shrink-0 hidden lg:flex">
-              <button className="self-center px-8 py-3 rounded">Sign in</button>
+              <NavLink to="/login">
+                <button className="self-center px-8 py-3 rounded">
+                  Sign in
+                </button>
+              </NavLink>
               <NavLink
                 to="/register"
                 className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
