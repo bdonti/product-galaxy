@@ -59,39 +59,43 @@ const Navbar = () => {
               Queries
             </NavLink>
           </li>
-          <li className="flex">
-            <NavLink
-              rel="noopener noreferrer"
-              to="/recommendations"
-              className={`flex items-center px-4 -mb-1 border-b-2 dark:border-${
-                isActive("/recommendations") ? "violet-600 font-bold" : ""
-              }`}
-            >
-              Recommendations For Me
-            </NavLink>
-          </li>
-          <li className="flex">
-            <NavLink
-              rel="noopener noreferrer"
-              to="/myQueries"
-              className={`flex items-center px-4 -mb-1 border-b-2 dark:border-${
-                isActive("/myQueries") ? "violet-600 font-bold" : ""
-              }`}
-            >
-              My Queries
-            </NavLink>
-          </li>
-          <li className="flex">
-            <NavLink
-              rel="noopener noreferrer"
-              to="/myRecommendations"
-              className={`flex items-center px-4 -mb-1 border-b-2 dark:border-${
-                isActive("/myRecommendations") ? "violet-600 font-bold" : ""
-              }`}
-            >
-              My Recommendations
-            </NavLink>
-          </li>
+          {user && (
+            <>
+              <li className="flex">
+                <NavLink
+                  rel="noopener noreferrer"
+                  to="/recommendations"
+                  className={`flex items-center px-4 -mb-1 border-b-2 dark:border-${
+                    isActive("/recommendations") ? "violet-600 font-bold" : ""
+                  }`}
+                >
+                  Recommendations For Me
+                </NavLink>
+              </li>
+              <li className="flex">
+                <NavLink
+                  rel="noopener noreferrer"
+                  to="/myQueries"
+                  className={`flex items-center px-4 -mb-1 border-b-2 dark:border-${
+                    isActive("/myQueries") ? "violet-600 font-bold" : ""
+                  }`}
+                >
+                  My Queries
+                </NavLink>
+              </li>
+              <li className="flex">
+                <NavLink
+                  rel="noopener noreferrer"
+                  to="/myRecommendations"
+                  className={`flex items-center px-4 -mb-1 border-b-2 dark:border-${
+                    isActive("/myRecommendations") ? "violet-600 font-bold" : ""
+                  }`}
+                >
+                  My Recommendations
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
         {loading && (
           <>
