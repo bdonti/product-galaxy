@@ -104,7 +104,7 @@ const Navbar = () => {
             </div>
           </>
         )}
-        {user ? (
+        {!loading && user ? (
           <>
             <div className="items-center flex-shrink-0 hidden lg:flex">
               <div className="flex flex-col items-center justify-center px-10">
@@ -126,19 +126,21 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <div className="items-center flex-shrink-0 hidden lg:flex">
-              <NavLink to="/login">
-                <button className="self-center px-8 py-3 rounded">
-                  Sign in
-                </button>
-              </NavLink>
-              <NavLink
-                to="/register"
-                className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
-              >
-                Sign up
-              </NavLink>
-            </div>
+            {!loading && (
+              <div className="items-center flex-shrink-0 hidden lg:flex">
+                <NavLink to="/login">
+                  <button className="self-center px-8 py-3 rounded">
+                    Sign in
+                  </button>
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
+                >
+                  Sign up
+                </NavLink>
+              </div>
+            )}
           </>
         )}
         <button className="p-4 lg:hidden" onClick={toggleMenu}>
