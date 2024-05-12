@@ -1,11 +1,18 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
+import { useState } from "react";
 
 const Navbar = () => {
   const location = useLocation();
 
   const isActive = (path) => {
     return location.pathname === path;
+  };
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -90,7 +97,7 @@ const Navbar = () => {
             Sign up
           </button>
         </div>
-        <button className="p-4 lg:hidden">
+        <button className="p-4 lg:hidden" onClick={toggleMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -106,6 +113,65 @@ const Navbar = () => {
             ></path>
           </svg>
         </button>
+        {isMenuOpen && (
+          <ul className="absolute top-16 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden">
+            <li className="p-4">
+              <NavLink
+                rel="noopener noreferrer"
+                to="/"
+                className={`flex justify-center items-center px-4 -mb-1 border-b-2 dark:border-${
+                  isActive("/") ? "violet-600 font-bold" : ""
+                }`}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                rel="noopener noreferrer"
+                to="/queries"
+                className={`flex justify-center items-center px-4 -mb-1 border-b-2 dark:border-${
+                  isActive("/queries") ? "violet-600 font-bold" : ""
+                }`}
+              >
+                Queries
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                rel="noopener noreferrer"
+                to="/recommendations"
+                className={`flex justify-center items-center px-4 -mb-1 border-b-2 dark:border-${
+                  isActive("/recommendations") ? "violet-600 font-bold" : ""
+                }`}
+              >
+                Recommendations
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                rel="noopener noreferrer"
+                to="/myQueries"
+                className={`flex justify-center items-center px-4 -mb-1 border-b-2 dark:border-${
+                  isActive("/myQueries") ? "violet-600 font-bold" : ""
+                }`}
+              >
+                My Queries
+              </NavLink>
+            </li>
+            <li className="p-4">
+              <NavLink
+                rel="noopener noreferrer"
+                to="/myRecommendations"
+                className={`flex justify-center items-center px-4 -mb-1 border-b-2 dark:border-${
+                  isActive("/myRecommendations") ? "violet-600 font-bold" : ""
+                }`}
+              >
+                My Recommendations
+              </NavLink>
+            </li>
+          </ul>
+        )}
       </div>
     </header>
   );
