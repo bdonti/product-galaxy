@@ -12,6 +12,7 @@ import Register from "./pages/Register/Register";
 import AuthProvider from "./providers/AuthProvider";
 import Login from "./pages/Login/Login";
 import PrivateRoute from "./routes/PrivateRoute";
+import AddQuery from "./pages/AddQuery/AddQuery";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/addQuery",
+        element: <AddQuery></AddQuery>,
       },
     ],
   },

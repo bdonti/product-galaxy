@@ -5,7 +5,7 @@ const MyQueries = () => {
   return (
     <div>
       <div
-        className="w-full lg:h-80 bg-gray-500 rounded-xl"
+        className="w-full lg:h-72 bg-gray-500 rounded-xl"
         style={{
           backgroundImage: `url(${queryImg})`,
           backgroundPosition: "center center",
