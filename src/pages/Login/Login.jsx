@@ -1,6 +1,36 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { signUser, signInWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    if (!email.trim() || !password.trim()) {
+      toast.error("Please Fill out all fields");
+      return;
+    }
+
+    signUser(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        navigate(location.state ? location.state : "/");
+        toast.success("Logged in Successfully");
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        toast.error(errorMessage);
+      });
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 dark:bg-gray-50 dark:text-gray-800">
@@ -8,7 +38,7 @@ const Login = () => {
           Login to your account
         </h2>
         <p className="text-sm text-center dark:text-gray-600">
-          Dont have account?
+          Do not have any account?
           <Link
             to="/register"
             rel="noopener noreferrer"
@@ -38,7 +68,7 @@ const Login = () => {
           <p className="px-3 dark:text-gray-600">OR</p>
           <hr className="w-full dark:text-gray-600" />
         </div>
-        <form noValidate="" action="" className="space-y-8">
+        <form onSubmit={handleLogin} className="space-y-8">
           <div className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="email" className="block text-sm">
@@ -67,10 +97,7 @@ const Login = () => {
               />
             </div>
           </div>
-          <button
-            type="button"
-            className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50"
-          >
+          <button className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
             Sign in
           </button>
         </form>
