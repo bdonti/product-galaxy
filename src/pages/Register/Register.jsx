@@ -1,6 +1,60 @@
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
+import { updateProfile } from "firebase/auth";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  //   const [registerErrorMessage, setRegisterErrorMessage] = useState("");
+  const { createUser } = useContext(AuthContext);
+
+  const handleRegister = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.username.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const url = form.url.value;
+
+    if (!name.trim() || !email.trim() || !password.trim() || !url.trim()) {
+      toast.error("Please Fill out all fields");
+      return;
+    }
+
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(email)) {
+    //   toast.error("Please Enter a Valid Email");
+    //   return;
+    // }
+
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password Must Contain an uppercase letter");
+      return;
+    }
+
+    createUser(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        return updateProfile(user, {
+          displayName: name,
+          photoURL: url,
+        })
+          .then(() => {
+            toast.success("Created User Successfully");
+            console.log("User created successfully:", user);
+            form.reset();
+          })
+          .catch((error) => {
+            toast.error(error.message);
+            console.error("Error updating user profile:", error);
+          });
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        console.error("Error creating user:", error);
+      });
+  };
+
   return (
     <div>
       <div>
@@ -24,7 +78,7 @@ const Register = () => {
               <h1 className="text-3xl font-bold text-center text-white mb-4">
                 Register
               </h1>
-              <form noValidate="" action="" className="space-y-6">
+              <form onSubmit={handleRegister} className="space-y-6">
                 <div className="space-y-1 text-sm">
                   <label htmlFor="username" className="block text-white">
                     Username

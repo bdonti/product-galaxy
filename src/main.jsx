@@ -9,6 +9,7 @@ import Recommendations from "./pages/Recommendations/Recommendations";
 import MyRecommendations from "./pages/MyRecommendations/MyRecommendations";
 import MyQueries from "./pages/MyQueries/MyQueries";
 import Register from "./pages/Register/Register";
+import AuthProvider from "./providers/AuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
