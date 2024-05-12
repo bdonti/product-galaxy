@@ -1,11 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  //   const [registerErrorMessage, setRegisterErrorMessage] = useState("");
   const { createUser } = useContext(AuthContext);
 
   const handleRegister = (event) => {
@@ -20,12 +19,6 @@ const Register = () => {
       toast.error("Please Fill out all fields");
       return;
     }
-
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //   toast.error("Please Enter a Valid Email");
-    //   return;
-    // }
 
     if (!/[A-Z]/.test(password)) {
       toast.error("Password Must Contain an uppercase letter");

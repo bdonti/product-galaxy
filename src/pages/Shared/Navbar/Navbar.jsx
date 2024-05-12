@@ -1,7 +1,10 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut, loading } = useContext(AuthContext);
+
   const location = useLocation();
 
   const isActive = (path) => {
@@ -90,15 +93,37 @@ const Navbar = () => {
             </NavLink>
           </li>
         </ul>
-        <div className="items-center flex-shrink-0 hidden lg:flex">
-          <button className="self-center px-8 py-3 rounded">Sign in</button>
-          <NavLink
-            to="/register"
-            className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
-          >
-            Sign up
-          </NavLink>
-        </div>
+        {loading && (
+          <>
+            <div className="items-center flex-shrink-0 hidden lg:flex">
+              <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-600"></div>
+            </div>
+          </>
+        )}
+        {user ? (
+          <>
+            <div className="items-center flex-shrink-0 hidden lg:flex">
+              <button
+                onClick={logOut}
+                className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
+              >
+                Logout
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="items-center flex-shrink-0 hidden lg:flex">
+              <button className="self-center px-8 py-3 rounded">Sign in</button>
+              <NavLink
+                to="/register"
+                className="px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50"
+              >
+                Sign up
+              </NavLink>
+            </div>
+          </>
+        )}
         <button className="p-4 lg:hidden" onClick={toggleMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
