@@ -48,19 +48,22 @@ const MyQueries = () => {
       </div>
 
       <div>
-        <h1 className="text-center font-bold text-2xl mt-8">
-          My Queries: {queries.length}
-        </h1>
+        <h1 className="text-center font-bold text-2xl mt-8">My Queries</h1>
         <div className="grid grid-cols-3 gap-8 mx-auto container mt-8">
           {queries.length === 0 ? (
             <>
-              <div className="font-bold text-3xl flex justify-center items-center">
+              <div className="font-bold col-span-3 text-3xl flex justify-center items-center">
                 No Queries Found. Please Add if you have any!!
               </div>
             </>
           ) : (
             queries.map((query) => (
-              <MyQuery key={query._id} query={query}></MyQuery>
+              <MyQuery
+                key={query._id}
+                query={query}
+                queries={queries}
+                setQueries={setQueries}
+              ></MyQuery>
             ))
           )}
         </div>

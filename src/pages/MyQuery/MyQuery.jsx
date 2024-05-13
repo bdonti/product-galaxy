@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaQuestion } from "react-icons/fa";
+import Swal from "sweetalert2";
 
-const MyQuery = ({ query }) => {
+const MyQuery = ({ query, queries, setQueries }) => {
   const [updatedQuery, setUpdatedQuery] = useState(query);
   const {
     _id,
@@ -52,6 +53,39 @@ const MyQuery = ({ query }) => {
           form.reset();
         }
       });
+  };
+
+  const handleDelete = (id) => {
+    console.log(id);
+    Swal.fire({
+      title: `Are you sure you want to delete your query`,
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/queries/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your Query has been deleted.",
+                icon: "success",
+              });
+            }
+            const remaining = queries.filter((query) => query._id !== id);
+            console.log("Remaining Queries:", remaining);
+            setQueries(remaining);
+          });
+        console.log("Delete Confirmed");
+      }
+    });
   };
 
   return (
@@ -179,7 +213,9 @@ const MyQuery = ({ query }) => {
           </dialog>
         </div>
         <div className="flex items-center space-x-1">
-          <button className="btn btn-warning">Delete</button>
+          <button onClick={() => handleDelete(_id)} className="btn btn-warning">
+            Delete
+          </button>
         </div>
       </div>
     </div>
@@ -187,7 +223,9 @@ const MyQuery = ({ query }) => {
 };
 
 MyQuery.propTypes = {
-  query: PropTypes.obj,
+  query: PropTypes.object,
+  queries: PropTypes.array,
+  setQueries: PropTypes.func,
 };
 
 export default MyQuery;

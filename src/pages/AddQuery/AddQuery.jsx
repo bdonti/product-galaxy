@@ -22,6 +22,7 @@ const AddQuery = () => {
       boycottReason,
       userEmail: user.email,
       userName: user.displayName,
+      userImage: user.photoURL,
       currentDate: new Date().toDateString(),
       recommendationCount: 0,
     };
