@@ -32,7 +32,10 @@ const RecentQuery = ({ query }) => {
           alt="product"
           className="rounded-xl object-cover w-full mb-4 h-60 bg-gray-500 dark:bg-gray-500"
         />
-        <h2 className="mb-1 text-2xl font-semibold">{queryTitle}</h2>
+        <div className="flex justify-between">
+          <h2 className="mb-1 text-2xl font-semibold">{queryTitle}</h2>
+          <div className="badge badge-secondary font-bold">NEW</div>
+        </div>
         <h4 className="mb-1 text-sm font-bold">{productName}</h4>
         <p className="mb-2 font-semibold">Brand Name: {brand}</p>
         <p className="text-sm text-gray-400 dark:text-gray-600">
