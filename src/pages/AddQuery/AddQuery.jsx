@@ -1,10 +1,53 @@
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import toast from "react-hot-toast";
+
 const AddQuery = () => {
+  const { user } = useContext(AuthContext);
+
+  const handleAddQueries = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const url = form.url.value;
+    const productName = form.name.value;
+    const brand = form.brand.value;
+    const queryTitle = form.title.value;
+    const boycottReason = form.reason.value;
+
+    const newQuery = {
+      url,
+      productName,
+      brand,
+      queryTitle,
+      boycottReason,
+      userEmail: user.email,
+      userName: user.displayName,
+      currentDate: new Date().toDateString(),
+      recommendationCount: 0,
+    };
+
+    fetch("http://localhost:5000/queries", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newQuery),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          toast.success("Query Successfully Added");
+          form.reset();
+        }
+      });
+  };
+
   return (
     <div>
       <section className="p-6 bg-slate-400 text-gray-50 rounded-xl mt-5">
         <form
-          noValidate=""
-          action=""
+          onSubmit={handleAddQueries}
           className="container flex flex-col mx-auto space-y-12 rounded-xl"
         >
           <fieldset className="text-center text-2xl font-bold text-gray-600">
@@ -53,9 +96,10 @@ const AddQuery = () => {
                   Query Title
                 </label>
                 <input
-                  id="city"
+                  id="title"
+                  name="title"
                   type="text"
-                  placeholder=""
+                  placeholder="Query Title"
                   className="w-full rounded-md focus:ring focus:ring-opacity-75 text-gray-900 focus:ring-violet-400 border-gray-700"
                 />
               </div>
