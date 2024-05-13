@@ -1,7 +1,20 @@
-import { MdOutlineQueryBuilder } from "react-icons/md";
 import { Link } from "react-router-dom";
 import queryImg from "../../assets/add_query.jpg";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import MyQuery from "../MyQuery/MyQuery";
 const MyQueries = () => {
+  const { user } = useContext(AuthContext);
+  const [queries, setQueries] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/queries?userEmail=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setQueries(data);
+      });
+  }, [user]);
+
   return (
     <div>
       <div
@@ -31,6 +44,23 @@ const MyQueries = () => {
               </button>
             </Link>
           </div>
+        </div>
+      </div>
+
+      <div>
+        <h1 className="text-center font-bold text-2xl mt-8">My Queries</h1>
+        <div className="grid grid-cols-3 gap-8 mx-auto container mt-8">
+          {queries.length === 0 ? (
+            <>
+              <div className="font-bold text-6xl text-center">
+                No Queries Found. Please Add if you have any!!
+              </div>
+            </>
+          ) : (
+            queries.map((query) => (
+              <MyQuery key={query._id} query={query}></MyQuery>
+            ))
+          )}
         </div>
       </div>
     </div>
