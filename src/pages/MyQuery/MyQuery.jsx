@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaQuestion } from "react-icons/fa";
 
 const MyQuery = ({ query }) => {
+  const [updatedQuery, setUpdatedQuery] = useState(query);
   const {
     _id,
     brand,
@@ -10,7 +13,7 @@ const MyQuery = ({ query }) => {
     queryTitle,
     currentDate,
     boycottReason,
-  } = query;
+  } = updatedQuery;
 
   const handleUpdateClick = (id) => {
     document.getElementById(`update_modal_${id}`).showModal();
@@ -18,6 +21,37 @@ const MyQuery = ({ query }) => {
 
   const handleUpdateQuery = (event) => {
     event.preventDefault();
+
+    const form = event.target;
+    const productName = form.name.value;
+    const brand = form.brand.value;
+    const queryTitle = form.title.value;
+    const boycottReason = form.reason.value;
+
+    const updateQuery = {
+      ...updatedQuery,
+      productName,
+      brand,
+      queryTitle,
+      boycottReason,
+    };
+
+    fetch(`http://localhost:5000/queries/${_id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updateQuery),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.modifiedCount > 0) {
+          setUpdatedQuery(updateQuery);
+          toast.success("Your Query Updated Successfully");
+          form.reset();
+        }
+      });
   };
 
   return (
@@ -106,22 +140,22 @@ const MyQuery = ({ query }) => {
                       >
                         Query Title
                       </label>
-                      <input
+                      <textarea
                         id="title"
                         name="title"
                         type="text"
                         defaultValue={queryTitle}
-                        className="flex items-center h-12 px-4 mt-2 rounded text-gray-900 focus:outline-none focus:ring-2 focus:border-violet-400 focus:dark:border-violet-600 focus:ring-violet-400 focus:dark:ring-violet-600"
+                        className="flex items-center h-12 px-4 mt-2 rounded text-gray-900 focus:outline-none focus:ring-2 focus:border-violet-400 focus:dark:border-violet-600 focus:ring-violet-400 focus:dark:ring-violet-600 textarea textarea-bordered textarea-md w-full max-w-xs"
                       />
                       <label
                         htmlFor="brand"
                         className="self-start text-xs font-semibold"
                       >
-                        Query Title
+                        Boycott Reason
                       </label>
-                      <input
-                        id="title"
-                        name="title"
+                      <textarea
+                        id="reason"
+                        name="reason"
                         type="text"
                         defaultValue={boycottReason}
                         className="flex items-center h-20 px-4 mt-2 rounded text-gray-900 focus:outline-none focus:ring-2 focus:border-violet-400 focus:dark:border-violet-600 focus:ring-violet-400 focus:dark:ring-violet-600 textarea textarea-bordered textarea-md w-full max-w-xs"
