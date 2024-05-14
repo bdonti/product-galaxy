@@ -66,6 +66,10 @@ const QueryDetail = () => {
         if (data.insertedId) {
           toast.success("Recommendation Successfully Added");
           form.reset();
+          setRecommendations((prevRecommendations) => [
+            ...prevRecommendations,
+            newRecommendation,
+          ]);
           fetch(`http://localhost:5000/queries/${_id}`)
             .then((res) => res.json())
             .then((updatedQuery) => {
