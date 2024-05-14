@@ -1,8 +1,71 @@
 import { useLoaderData } from "react-router-dom";
+import { FaComments } from "react-icons/fa";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import toast from "react-hot-toast";
 
 const QueryDetail = () => {
   const query = useLoaderData();
+  const { user } = useContext(AuthContext);
+  const { userEmail, userName, _id, queryTitle, recommendationCount } = query;
+  const [currentRecommendationCount, setCurrentRecommendationCount] =
+    useState(recommendationCount);
   console.log(query);
+
+  const handleSubmitRecommendation = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const recommendationTitle = form.recommendation_title.value;
+    const recommendationName = form.recommendation_name.value;
+    const recommendationUrl = form.recommendation_url.value;
+    const recommendationReason = form.recommendation_reason.value;
+
+    if (
+      !recommendationTitle ||
+      !recommendationName ||
+      !recommendationUrl ||
+      !recommendationReason
+    ) {
+      toast.error("Please Fill out all the fields");
+      return;
+    }
+
+    const newRecommendation = {
+      recommendationTitle,
+      recommendationName,
+      recommendationUrl,
+      recommendationReason,
+      userEmail,
+      userName,
+      recommenderUserEmail: user.email,
+      recommenderUserName: user.displayName,
+      query_id: _id,
+      queryTitle,
+      currentDate: new Date().toLocaleString(),
+    };
+
+    fetch("http://localhost:5000/recommendations", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newRecommendation),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          toast.success("Recommendation Successfully Added");
+          form.reset();
+          fetch(`http://localhost:5000/queries/${_id}`)
+            .then((res) => res.json())
+            .then((updatedQuery) => {
+              setCurrentRecommendationCount(updatedQuery.recommendationCount);
+            });
+        }
+      });
+  };
+
   return (
     <section className="py-6 bg-gray-800 dark:bg-gray-100 text-gray-50 dark:text-gray-900">
       <div className="grid max-w-7xl grid-cols-1 px-6 mx-auto lg:px-8 md:grid-cols-2 md:divide-x">
@@ -33,7 +96,7 @@ const QueryDetail = () => {
             <p>{query.boycottReason}</p>
           </div>
           <div className="text-gray-100 dark:text-gray-800 font-bold text-center">
-            <p>Total Recommendations: {query.recommendationCount}</p>
+            <p>Total Recommendations: {currentRecommendationCount}</p>
           </div>
           <div className="pt-12 border-t border-gray-700 dark:border-gray-300">
             <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
@@ -77,39 +140,90 @@ const QueryDetail = () => {
         </article>
         <div className="max-w-3xl px-6 py-24 mx-auto space-y-12 bg-gray-800 dark:bg-gray-100 text-gray-50 dark:text-gray-900">
           <form
-            noValidate=""
+            onSubmit={handleSubmitRecommendation}
             className="flex flex-col py-6 space-y-6 md:py-0 md:px-6"
           >
             <label className="block">
-              <span className="mb-1">Full name</span>
+              <span className="mb-1">Recommendation Title</span>
               <input
                 type="text"
-                placeholder="Leroy Jenkins"
-                className="block w-full rounded-md shadow-sm focus:ring focus:ring-opacity-75 focus:ring-violet-400 focus:dark:ring-violet-600 bg-gray-800 dark:bg-gray-100"
+                name="recommendation_title"
+                placeholder="Title"
+                className="block px-2 w-full rounded-md shadow-sm focus:ring focus:ring-opacity-75 focus:ring-violet-400 focus:dark:ring-violet-600 bg-gray-800 dark:bg-gray-100"
               />
             </label>
             <label className="block">
-              <span className="mb-1">Email address</span>
+              <span className="mb-1">Recommendation Product Name</span>
               <input
-                type="email"
-                placeholder="leroy@jenkins.com"
-                className="block w-full rounded-md shadow-sm focus:ring focus:ring-opacity-75 focus:ring-violet-400 focus:dark:ring-violet-600 bg-gray-800 dark:bg-gray-100"
+                type="text"
+                name="recommendation_name"
+                placeholder="Product Name"
+                className="block px-2 w-full rounded-md shadow-sm focus:ring focus:ring-opacity-75 focus:ring-violet-400 focus:dark:ring-violet-600 bg-gray-800 dark:bg-gray-100"
               />
             </label>
             <label className="block">
-              <span className="mb-1">Message</span>
+              <span className="mb-1">Recommendation Product Image</span>
+              <input
+                type="text"
+                name="recommendation_url"
+                placeholder="Product Image"
+                className="block px-2 w-full rounded-md shadow-sm focus:ring focus:ring-opacity-75 focus:ring-violet-400 focus:dark:ring-violet-600 bg-gray-800 dark:bg-gray-100"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1">Recommendation Reason</span>
               <textarea
                 rows="3"
-                className="block w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-400 focus:dark:ring-violet-600 bg-gray-800 dark:bg-gray-100"
+                name="recommendation_reason"
+                placeholder="Reason"
+                className="block w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-400 focus:dark:ring-violet-600 bg-gray-800 dark:bg-gray-100 px-2"
               ></textarea>
             </label>
-            <button
-              type="button"
-              className="self-center px-8 py-3 text-lg rounded focus:ring hover:ring focus:ring-opacity-75 bg-violet-400 dark:bg-violet-600 text-gray-900 dark:text-gray-50 focus:ring-violet-400 focus:dark:ring-violet-600 hover:ring-violet-400 hover:dark:ring-violet-600"
-            >
-              Submit
+            <button className="self-center px-8 py-3 text-lg rounded focus:ring hover:ring focus:ring-opacity-75 bg-violet-400 dark:bg-violet-600 text-gray-900 dark:text-gray-50 focus:ring-violet-400 focus:dark:ring-violet-600 hover:ring-violet-400 hover:dark:ring-violet-600 font-semibold">
+              Add Recommendation
             </button>
           </form>
+          <section className="my-8 bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
+            <div className="container flex flex-col items-center p-4 mx-auto space-y-6 md:p-8">
+              <FaComments className="text-4xl text-sky-600" />
+              <p className="px-6 py-2 font-semibold text-center sm:font-bold  text-gray-300 dark:text-gray-700">
+                "Veniam quidem animi ea maxime odit fugiat architecto
+                perferendis ipsum perspiciatis iusto, provident qui nam dolorum
+                corporis."
+              </p>
+              <div className="flex justify-center space-x-3">
+                <img
+                  src="https://source.unsplash.com/80x80/?portrait?1"
+                  alt=""
+                  className="w-20 h-20 bg-center bg-cover rounded-md bg-gray-500"
+                />
+                <div>
+                  <p className="leading-tight">Leroy Jenkins</p>
+                  <p className="text-sm leading-tight text-gray-300 dark:text-gray-700">
+                    Founder, Company
+                  </p>
+                  <a
+                    className="flex items-center py-2 space-x-1 text-sm text-violet-400 dark:text-violet-600"
+                    href="/"
+                  >
+                    <span>Read full story</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </section>
