@@ -1,6 +1,7 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const MyRecommendations = () => {
   const { user } = useContext(AuthContext);
@@ -9,7 +10,46 @@ const MyRecommendations = () => {
   const loggedUserRecommendations = recommendations.filter(
     (recommendation) => recommendation.recommenderUserEmail === user.email
   );
+  const [remainingRecommendations, setRemainingRecommendations] = useState(
+    loggedUserRecommendations
+  );
   console.log(loggedUserRecommendations);
+
+  const handleDelete = (id) => {
+    console.log(id);
+    Swal.fire({
+      title: `Are you sure you want to delete`,
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/recommendations/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Recommendation Data has been deleted.",
+                icon: "success",
+              });
+            }
+            const remaining = loggedUserRecommendations.filter(
+              (recommendation) => recommendation._id !== id
+            );
+            console.log("Remaining recommendations:", remaining);
+            setRemainingRecommendations(remaining);
+          });
+        console.log("Delete Confirmed");
+      }
+    });
+  };
+
   return (
     <div>
       <div className="container p-2 mx-auto sm:p-4 text-gray-100 dark:text-gray-800 text-gray-100 dark:text-gray-800">
@@ -34,7 +74,7 @@ const MyRecommendations = () => {
               </tr>
             </thead>
             <tbody>
-              {loggedUserRecommendations.map((recommendation) => (
+              {remainingRecommendations.map((recommendation) => (
                 <tr key={recommendation._id}>
                   <td className="p-3">
                     <p>{recommendation._id}</p>
@@ -57,7 +97,10 @@ const MyRecommendations = () => {
                     </p>
                   </td>
                   <td>
-                    <button className="btn btn-secondary w-20 h-6 px-4">
+                    <button
+                      onClick={() => handleDelete(recommendation._id)}
+                      className="btn btn-secondary w-20 h-6 px-4"
+                    >
                       Delete
                     </button>
                   </td>
