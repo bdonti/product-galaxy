@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaQuestion } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MyQuery = ({ query, queries, setQueries }) => {
@@ -121,7 +122,9 @@ const MyQuery = ({ query, queries, setQueries }) => {
       </div>
       <div className="flex items-center justify-between gap-8 p-4 border-t text-gray-400 border-gray-700">
         <div className="flex items-center space-x-1">
-          <button className="btn btn-info">View Details</button>
+          <Link to={`/queryDetail/${_id}`}>
+            <button className="btn btn-info">View Details</button>
+          </Link>
         </div>
         <div className="flex items-center space-x-1">
           <button
