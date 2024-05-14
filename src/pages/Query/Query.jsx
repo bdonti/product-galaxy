@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const Query = ({ query }) => {
   const {
+    _id,
     productName,
     brand,
     url,
@@ -32,7 +34,9 @@ const Query = ({ query }) => {
         <h2 className="card-title">{queryTitle}</h2>
         <p>{boycottReason}</p>
         <div className="flex justify-center mt-5">
-          <button className="btn btn-outline btn-primary">Recommend</button>
+          <Link to={`/queryDetail/${_id}`}>
+            <button className="btn btn-outline btn-primary">Recommend</button>
+          </Link>
         </div>
       </div>
     </div>

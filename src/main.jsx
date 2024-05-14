@@ -13,6 +13,7 @@ import AuthProvider from "./providers/AuthProvider";
 import Login from "./pages/Login/Login";
 import PrivateRoute from "./routes/PrivateRoute";
 import AddQuery from "./pages/AddQuery/AddQuery";
+import QueryDetail from "./pages/QueryDetail/QueryDetail";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,12 @@ const router = createBrowserRouter([
       {
         path: "/addQuery",
         element: <AddQuery></AddQuery>,
+      },
+      {
+        path: "/queryDetail/:id",
+        element: <QueryDetail></QueryDetail>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/queries/${params.id}`),
       },
     ],
   },
