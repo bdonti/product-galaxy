@@ -1,8 +1,9 @@
 import { useLoaderData } from "react-router-dom";
-import { FaComments } from "react-icons/fa";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
+import ProductComment from "../ProductComment/ProductComment";
+import { FaComments } from "react-icons/fa";
 
 const QueryDetail = () => {
   const query = useLoaderData();
@@ -10,7 +11,15 @@ const QueryDetail = () => {
   const { userEmail, userName, _id, queryTitle, recommendationCount } = query;
   const [currentRecommendationCount, setCurrentRecommendationCount] =
     useState(recommendationCount);
-  console.log(query);
+  const [recommendations, setRecommendations] = useState([]);
+  //   console.log(query);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/recommendations/${_id}`)
+      .then((res) => res.json())
+      .then((data) => setRecommendations(data));
+  }, [_id]);
+  console.log(recommendations);
 
   const handleSubmitRecommendation = (e) => {
     e.preventDefault();
@@ -183,47 +192,16 @@ const QueryDetail = () => {
               Add Recommendation
             </button>
           </form>
-          <section className="my-8 bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
-            <div className="container flex flex-col items-center p-4 mx-auto space-y-6 md:p-8">
-              <FaComments className="text-4xl text-sky-600" />
-              <p className="px-6 py-2 font-semibold text-center sm:font-bold  text-gray-300 dark:text-gray-700">
-                "Veniam quidem animi ea maxime odit fugiat architecto
-                perferendis ipsum perspiciatis iusto, provident qui nam dolorum
-                corporis."
-              </p>
-              <div className="flex justify-center space-x-3">
-                <img
-                  src="https://source.unsplash.com/80x80/?portrait?1"
-                  alt=""
-                  className="w-20 h-20 bg-center bg-cover rounded-md bg-gray-500"
-                />
-                <div>
-                  <p className="leading-tight">Leroy Jenkins</p>
-                  <p className="text-sm leading-tight text-gray-300 dark:text-gray-700">
-                    Founder, Company
-                  </p>
-                  <a
-                    className="flex items-center py-2 space-x-1 text-sm text-violet-400 dark:text-violet-600"
-                    href="/"
-                  >
-                    <span>Read full story</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="w-4 h-4"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
+          <div className="flex flex-col justify-center items-center">
+            <p className="text-2xl font-bold mb-2">Recommendations</p>
+            <FaComments className="text-4xl text-sky-600" />
+          </div>
+          {recommendations.map((recommendation) => (
+            <ProductComment
+              key={recommendation._id}
+              recommendation={recommendation}
+            ></ProductComment>
+          ))}
         </div>
       </div>
     </section>

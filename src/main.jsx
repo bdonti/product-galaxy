@@ -31,10 +31,16 @@ const router = createBrowserRouter([
       {
         path: "/recommendations",
         element: <Recommendations></Recommendations>,
+        loader: () => fetch("http://localhost:5000/recommendations/"),
       },
       {
         path: "/myRecommendations",
-        element: <MyRecommendations></MyRecommendations>,
+        element: (
+          <PrivateRoute>
+            <MyRecommendations></MyRecommendations>
+          </PrivateRoute>
+        ),
+        loader: () => fetch("http://localhost:5000/recommendations/"),
       },
       {
         path: "/myQueries",
