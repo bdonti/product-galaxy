@@ -51,7 +51,7 @@ const MyQueries = () => {
 
       <div>
         <h1 className="text-center font-bold text-2xl mt-8">My Queries</h1>
-        <div className="grid grid-cols-3 gap-8 mx-auto container mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto container mt-8">
           {queries.length === 0 ? (
             <>
               <div className="font-bold col-span-3 text-3xl flex justify-center items-center">
