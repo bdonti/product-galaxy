@@ -5,7 +5,7 @@ import { TbColumns3, TbColumns2, TbColumns1 } from "react-icons/tb";
 const Queries = () => {
   const [queries, setQueries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [layout, setLayout] = useState("three-columns"); // State for layout
+  const [layout, setLayout] = useState("three-columns");
 
   useEffect(() => {
     fetch("http://localhost:5000/recentQueriesNoLimit")
