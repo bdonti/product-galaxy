@@ -4,11 +4,16 @@ const Footer = () => {
     <div>
       <footer className="footer items-center p-4 bg-neutral text-neutral-content">
         <aside className="items-center grid-flow-col mx-auto">
-          <div className="flex flex-col">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <p className="font-bold text-2xl mx-auto">Product Galaxy</p>
             <p>
               <GiGalaxy className="text-blue-500 text-center mx-auto text-6xl mb-3" />
             </p>
-            <p className="font-bold text-xl">
+          </div>
+        </aside>
+        <aside className="flex justify-center">
+          <div className="mt-14">
+            <p className="font-bold text-xl text-center">
               Copyright © 2024 - All right reserved
             </p>
           </div>
