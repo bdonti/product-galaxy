@@ -4,7 +4,7 @@ import RecentQuery from "./RecentQuery";
 const RecentQueries = () => {
   const [queries, setQueries] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/recentQueries")
+    fetch("https://product-galaxy.vercel.app/recentQueries")
       .then((res) => res.json())
       .then((data) => setQueries(data));
   }, []);

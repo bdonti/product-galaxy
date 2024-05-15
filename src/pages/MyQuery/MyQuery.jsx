@@ -38,7 +38,7 @@ const MyQuery = ({ query, queries, setQueries }) => {
       boycottReason,
     };
 
-    fetch(`http://localhost:5000/queries/${_id}`, {
+    fetch(`https://product-galaxy.vercel.app/queries/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -68,7 +68,7 @@ const MyQuery = ({ query, queries, setQueries }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/queries/${_id}`, {
+        fetch(`https://product-galaxy.vercel.app/queries/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

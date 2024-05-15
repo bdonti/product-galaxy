@@ -8,7 +8,7 @@ const MyQueries = () => {
   const [queries, setQueries] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/queries?userEmail=${user.email}`, {
+    fetch(`https://product-galaxy.vercel.app/queries?userEmail=${user.email}`, {
       credentials: "include",
     })
       .then((res) => res.json())

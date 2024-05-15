@@ -4,7 +4,7 @@ import LatestReview from "./LatestReview";
 const LatestReviews = () => {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/feedbacks")
+    fetch("https://product-galaxy.vercel.app/feedbacks")
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);

@@ -31,7 +31,8 @@ const router = createBrowserRouter([
       {
         path: "/recommendations",
         element: <Recommendations></Recommendations>,
-        loader: () => fetch("http://localhost:5000/recommendations/"),
+        loader: () =>
+          fetch("https://product-galaxy.vercel.app/recommendations/"),
       },
       {
         path: "/myRecommendations",
@@ -40,7 +41,8 @@ const router = createBrowserRouter([
             <MyRecommendations></MyRecommendations>
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:5000/recommendations/"),
+        loader: () =>
+          fetch("https://product-galaxy.vercel.app/recommendations/"),
       },
       {
         path: "/myQueries",
@@ -66,7 +68,7 @@ const router = createBrowserRouter([
         path: "/queryDetail/:id",
         element: <QueryDetail></QueryDetail>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/queries/${params.id}`),
+          fetch(`https://product-galaxy.vercel.app/queries/${params.id}`),
       },
     ],
   },

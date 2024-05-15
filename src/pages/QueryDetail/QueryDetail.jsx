@@ -15,7 +15,7 @@ const QueryDetail = () => {
   //   console.log(query);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/recommendations/${_id}`)
+    fetch(`https://product-galaxy.vercel.app/recommendations/${_id}`)
       .then((res) => res.json())
       .then((data) => setRecommendations(data));
   }, [_id]);
@@ -53,7 +53,7 @@ const QueryDetail = () => {
       currentDate: new Date().toLocaleString(),
     };
 
-    fetch("http://localhost:5000/recommendations", {
+    fetch("https://product-galaxy.vercel.app/recommendations", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -70,7 +70,7 @@ const QueryDetail = () => {
             ...prevRecommendations,
             newRecommendation,
           ]);
-          fetch(`http://localhost:5000/queries/${_id}`)
+          fetch(`https://product-galaxy.vercel.app/queries/${_id}`)
             .then((res) => res.json())
             .then((updatedQuery) => {
               setCurrentRecommendationCount(updatedQuery.recommendationCount);

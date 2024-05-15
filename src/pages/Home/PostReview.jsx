@@ -11,7 +11,7 @@ const PostReview = () => {
     const form = e.target;
     const feedback = form.feedback.value;
 
-    fetch("http://localhost:5000/feedbacks")
+    fetch("https://product-galaxy.vercel.app/feedbacks")
       .then((res) => res.json())
       .then((feedbacks) => {
         const userFeedback = feedbacks.find(
@@ -29,7 +29,7 @@ const PostReview = () => {
           feedback,
         };
 
-        fetch("http://localhost:5000/feedbacks", {
+        fetch("https://product-galaxy.vercel.app/feedbacks", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

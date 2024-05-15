@@ -8,7 +8,7 @@ const Queries = () => {
   const [layout, setLayout] = useState("three-columns");
 
   useEffect(() => {
-    fetch("http://localhost:5000/recentQueriesNoLimit")
+    fetch("https://product-galaxy.vercel.app/recentQueriesNoLimit")
       .then((res) => res.json())
       .then((data) => setQueries(data));
   }, []);
