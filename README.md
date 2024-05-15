@@ -1,8 +1,13 @@
-# React + Vite
+# Product Galaxy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<a href="https://product-galaxy.web.app/">Live Site Link</a>
 
-Currently, two official plugins are available:
+Selected Category: category_0009
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Main Features:
+
+- Category of the website is about posting query regarding products and alternate product recommendation suggested by users.
+- Logged User can add, update, delete his/her query
+- User can also view other user's queries
+- User can participate in discussion while viewing those to suggest recommended products
+- User can also delete their recommendation for particular query
